@@ -1,1 +1,313 @@
+```html
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnbekGlobalkz — Легальная работа на фермах за рубежом для граждан Казахстана</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        emerald: {
+                            850: '#064e3b',
+                            950: '#022c22',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Кастомные стили для плавности и скроллбаров */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, #064e3b 0%, #047857 55%, #065f46 100%);
+        }
+        .card-hover {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px -8px rgba(6, 78, 59, 0.15);
+        }
+        /* Стилизация range-слайдеров для калькулятора */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #d97706;
+            cursor: pointer;
+            margin-top: -6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: #d1fae5;
+            border-radius: 999px;
+        }
+    </style>
+</head>
+<body class="text-slate-800 antialiased selection:bg-emerald-200 selection:text-emerald-950">
 
+    <!-- Верхний информационный баннер о политике безопасности и исключении стран -->
+    <div class="bg-slate-900 text-slate-200 text-xs sm:text-sm py-2 px-4 border-b border-slate-800">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-center sm:text-left">
+            <div class="flex items-center gap-2">
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                    <i class="fa-solid fa-shield-halved mr-1.5"></i> Только для граждан РК
+                </span>
+                <span>Официальные контракты по рабочим визам.</span>
+            </div>
+            <div class="text-amber-300 font-medium flex items-center gap-1.5">
+                <i class="fa-solid fa-ban text-rose-400"></i>
+                <span>Вакансии в РФ и РБ не размещаются в соответствии с политикой платформы</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Навигационная панель -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 sm:h-20">
+                <!-- Логотип -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-emerald-700 text-white flex items-center justify-center shadow-md group-hover:bg-emerald-800 transition">
+                        <i class="fa-solid fa-wheat-awn text-lg sm:text-xl text-amber-300"></i>
+                    </div>
+                    <div>
+                        <span class="font-extrabold text-xl sm:text-2xl tracking-tight text-slate-900">EnbekGlobal<span class="text-emerald-700">kz</span></span>
+                        <p class="text-[11px] text-slate-500 leading-none hidden sm:block">Агро-карьера за рубежом</p>
+                    </div>
+                </a>
+
+                <!-- Десктопное меню -->
+                <nav class="hidden md:flex items-center gap-7 text-sm font-semibold text-slate-600">
+                    <a href="#vacancies" class="hover:text-emerald-700 transition">Вакансии</a>
+                    <a href="#calculator" class="hover:text-emerald-700 transition">Калькулятор дохода</a>
+                    <a href="#legal-guide" class="hover:text-emerald-700 transition">Памятка для РК</a>
+                </nav>
+
+                <!-- Кнопки действий -->
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <!-- Кнопка Избранного -->
+                    <button id="openSavedBtn" type="button" class="relative inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm transition">
+                        <i class="fa-solid fa-bookmark text-amber-500"></i>
+                        <span class="hidden sm:inline">Избранное</span>
+                        <span id="savedCountBadge" class="inline-flex items-center justify-center w-5 h-5 text-xs font-bold bg-emerald-700 text-white rounded-full">0</span>
+                    </button>
+
+                    <!-- Кнопка быстрой заявки -->
+                    <button type="button" onclick="openApplicationModal()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-sm shadow-sm transition">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>Подать анкету</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Секция -->
+    <section class="hero-gradient text-white relative overflow-hidden">
+        <!-- Декоративные элементы фона -->
+        <div class="absolute inset-0 opacity-10 pointer-events-none">
+            <div class="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-amber-400 blur-3xl"></div>
+            <div class="absolute bottom-0 left-10 w-72 h-72 rounded-full bg-emerald-300 blur-3xl"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-20 relative z-10">
+            <div class="max-w-3xl">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-sm border border-white/20 text-amber-200 text-xs sm:text-sm font-medium mb-6">
+                    <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                    Открыт набор на сезон 2026–2027 для граждан Казахстана 🇰🇿
+                </div>
+
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight mb-5">
+                    Легальная работа на фермах за рубежом для граждан Казахстана
+                </h1>
+
+                <p class="text-emerald-100 text-base sm:text-lg leading-relaxed mb-8 max-w-2xl">
+                    Прямые контракты в Великобритании, Южной Корее, Австралии, Германии, Польше и Канаде. Проверенные операторы, официальные рабочие визы (Tier 5, EPS E-9, Agri-Visa) и прозрачный расчёт дохода в тенге.
+                </p>
+
+                <!-- Быстрые теги стран -->
+                <div class="flex flex-wrap items-center gap-2.5 text-sm">
+                    <span class="text-emerald-200 font-medium mr-1">Популярные направления:</span>
+                    <button type="button" onclick="quickFilterCountry('Великобритания')" class="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/25 border border-white/20 transition flex items-center gap-1.5">
+                        🇬🇧 Великобритания
+                    </button>
+                    <button type="button" onclick="quickFilterCountry('Южная Корея')" class="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/25 border border-white/20 transition flex items-center gap-1.5">
+                        🇰🇷 Южная Корея (EPS)
+                    </button>
+                    <button type="button" onclick="quickFilterCountry('Австралия')" class="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/25 border border-white/20 transition flex items-center gap-1.5">
+                        🇦🇺 Австралия
+                    </button>
+                    <button type="button" onclick="quickFilterCountry('Германия')" class="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/25 border border-white/20 transition flex items-center gap-1.5">
+                        🇩🇪 Германия
+                    </button>
+                </div>
+            </div>
+
+            <!-- Панель умного поиска и фильтрации -->
+            <div class="mt-10 bg-white rounded-2xl p-4 sm:p-6 shadow-xl text-slate-800 border border-slate-100">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4">
+                    <!-- Поиск по ключевым словам -->
+                    <div class="lg:col-span-4">
+                        <label for="searchInput" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Поиск вакансии</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                            <input type="text" id="searchInput" placeholder="Например: клубника, теплица, трактор..." class="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-emerald-600 focus:bg-white focus:ring-2 focus:ring-emerald-600/20 outline-none text-sm transition">
+                        </div>
+                    </div>
+
+                    <!-- Выбор страны (Строго без РФ и РБ) -->
+                    <div class="lg:col-span-3">
+                        <label for="countryFilter" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Страна (кроме РФ и РБ)</label>
+                        <select id="countryFilter" class="w-full px-3.5 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-emerald-600 focus:bg-white focus:ring-2 focus:ring-emerald-600/20 outline-none text-sm font-medium transition">
+                            <option value="ALL">🌍 Все разрешённые страны</option>
+                            <option value="Великобритания">🇬🇧 Великобритания</option>
+                            <option value="Южная Корея">🇰🇷 Южная Корея</option>
+                            <option value="Австралия">🇦🇺 Австралия</option>
+                            <option value="Германия">🇩🇪 Германия</option>
+                            <option value="Польша">🇵🇱 Польша</option>
+                            <option value="Канада">🇨🇦 Канада</option>
+                        </select>
+                    </div>
+
+                    <!-- Тип работ -->
+                    <div class="lg:col-span-3">
+                        <label for="categoryFilter" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Направление работ</label>
+                        <select id="categoryFilter" class="w-full px-3.5 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-emerald-600 focus:bg-white focus:ring-2 focus:ring-emerald-600/20 outline-none text-sm font-medium transition">
+                            <option value="ALL">Все направления</option>
+                            <option value="Сбор урожая">🍓 Сбор урожая (ягоды, фрукты)</option>
+                            <option value="Теплицы">🌱 Теплицы и грибные фермы</option>
+                            <option value="Животноводство">🐄 Животноводство и молочные фермы</option>
+                            <option value="Упаковка и сортировка">📦 Упаковка, сортировка и склад</option>
+                        </select>
+                    </div>
+
+                    <!-- Сортировка -->
+                    <div class="lg:col-span-2">
+                        <label for="sortFilter" class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Сортировка</label>
+                        <select id="sortFilter" class="w-full px-3.5 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:border-emerald-600 focus:bg-white focus:ring-2 focus:ring-emerald-600/20 outline-none text-sm font-medium transition">
+                            <option value="default">Рекомендуемые</option>
+                            <option value="salary_desc">Зарплата (выше)</option>
+                            <option value="salary_asc">Зарплата (ниже)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Нижняя строка фильтров -->
+                <div class="mt-4 pt-3.5 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm">
+                    <div class="flex flex-wrap items-center gap-4">
+                        <label class="inline-flex items-center gap-2 cursor-pointer select-none">
+                            <input type="checkbox" id="noLangFilter" class="w-4 h-4 rounded text-emerald-700 focus:ring-emerald-600 border-slate-300">
+                            <span class="font-medium text-slate-700">Только без знания языка</span>
+                        </label>
+                        <label class="inline-flex items-center gap-2 cursor-pointer select-none">
+                            <input type="checkbox" id="housingFilter" class="w-4 h-4 rounded text-emerald-700 focus:ring-emerald-600 border-slate-300">
+                            <span class="font-medium text-slate-700">Проживание на территории фермы</span>
+                        </label>
+                    </div>
+                    <button type="button" id="resetFiltersBtn" class="text-emerald-700 hover:text-emerald-800 font-semibold flex items-center gap-1.5">
+                        <i class="fa-solid fa-rotate-left"></i> Сбросить фильтры
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Секция Вакансий -->
+    <main id="vacancies" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+            <div>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">Актуальные вакансии за рубежом</h2>
+                <p class="text-slate-600 mt-1 text-sm sm:text-base">
+                    Найдено предложений: <span id="jobsCount" class="font-bold text-emerald-700">0</span> • Все вакансии проверены на соответствие требованиям для паспорта РК
+                </p>
+            </div>
+            <div class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold">
+                <i class="fa-solid fa-circle-exclamation text-rose-600"></i>
+                <span>РФ и Беларусь полностью исключены из поиска</span>
+            </div>
+        </div>
+
+        <!-- Сетка карточек вакансий -->
+        <div id="jobsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Карточки генерируются через JS -->
+        </div>
+
+        <!-- Сообщение, если ничего не найдено -->
+        <div id="emptyState" class="hidden text-center py-16 px-4 bg-white rounded-2xl border border-slate-200 shadow-sm">
+            <div class="w-16 h-16 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-4 text-2xl">
+                <i class="fa-solid fa-seedling"></i>
+            </div>
+            <h3 class="text-lg font-bold text-slate-900 mb-1">По вашему запросу вакансий не найдено</h3>
+            <p class="text-slate-500 text-sm max-w-md mx-auto mb-5">
+                Попробуйте изменить страну, убрать фильтр по языку или ввести другой ключевой запрос. Напоминаем, что вакансии в РФ и РБ не публикуются.
+            </p>
+            <button type="button" onclick="resetAllFilters()" class="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-semibold text-sm transition">
+                Показать все вакансии
+            </button>
+        </div>
+    </main>
+
+    <!-- Интерактивный Калькулятор Заработка и Накоплений -->
+    <section id="calculator" class="bg-emerald-950 text-white py-14 sm:py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-2xl mb-10">
+                <span class="inline-block px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold uppercase tracking-wider mb-3">
+                    Финансовое планирование
+                </span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold">Калькулятор чистых накоплений в тенге (KZT)</h2>
+                <p class="text-emerald-200 mt-2 text-sm sm:text-base">
+                    Рассчитайте ориентировочный доход за вычетом базовых расходов на проживание и питание. Расчёт ведётся по актуальному среднему курсу НБ РК.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <!-- Панель настроек -->
+                <div class="lg:col-span-7 bg-emerald-900/60 border border-emerald-800 rounded-2xl p-6 sm:p-8 space-y-6">
+                    <!-- Выбор страны для расчёта -->
+                    <div>
+                        <label for="calcCountry" class="block text-sm font-semibold text-emerald-100 mb-2">Выберите страну и базовую ставку</label>
+                        <select id="calcCountry" class="w-full px-4 py-3 rounded-xl bg-emerald-950 border border-emerald-700 text-white font-medium focus:outline-none focus:border-amber-400">
+                            <option value="UK" data-rate="12.21" data-currency="GBP" data-symbol="£" data-kzt="645" data-living="320">🇬🇧 Великобритания — £12.21 / час (Seasonal Worker)</option>
+                            <option value="KR" data-rate="10300" data-currency="KRW" data-symbol="₩" data-kzt="0.36" data-living="350000">🇰🇷 Южная Корея — ₩10,300 / час (EPS E-9 Агро)</option>
+                            <option value="AU" data-rate="29.33" data-currency="AUD" data-symbol="A$" data-kzt="325" data-living="650">🇦🇺 Австралия — A$29.33 / час (Horticulture Award)</option>
+                            <option value="DE" data-rate="12.82" data-currency="EUR" data-symbol="€" data-kzt="540" data-living="380">🇩🇪 Германия — €12.82 / час (Сезонный контракт)</option>
+                            <option value="PL" data-rate="30.50" data-currency="PLN" data-symbol="zł" data-kzt="125" data-living="750">🇵🇱 Польша — 30.50 zł / час (Umowa zlecenie)</option>
+                            <option value="CA" data-rate="17.75" data-currency="CAD" data-symbol="C$" data-kzt="360" data-living="550">🇨🇦 Канада — C$17.75 / час (Agri-Food Pilot)</option>
+                        </select>
+                    </div>
+
+                    <!-- Часов в неделю -->
+                    <div>
+                        <div class="flex justify-between text-sm mb-2">
+                            <span class="font-semibold text-emerald-100">Рабочих часов в неделю (включая переработки):</span>
+                            <span id="hoursVal" class="font-bold text-amber-400 text-base">48 часов</span>
+                        </div>
+                        <input type="range" id="calcHours" min="35" max="65" value="48" class="w-full">
+     
